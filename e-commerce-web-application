@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyShop - Home</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      animation: fadeInBody 1s ease forwards;
+    }
+
+    @keyframes fadeInBody {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #131921;
+      color: white;
+      padding: 10px 20px;
+      flex-wrap: wrap;
+      animation: slideDown 1s ease forwards;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    .navbar h1 {
+      font-size: 24px;
+      margin: 5px 0;
+      cursor: pointer;
+    }
+
+    .search-container {
+      display: flex;
+      width: 300px;
+      max-width: 100%;
+      margin: 5px 0;
+    }
+
+    .search-container input {
+      flex: 1;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    .search-container button {
+      background-color: #ffa41c;
+      border: none;
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-container button:hover {
+      background-color: #f08804;
+    }
+
+    .navbar-buttons {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .navbar button.nav-btn {
+      background-color: #ffa41c;
+      border: none;
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      position: relative;
+    }
+
+    .navbar button.nav-btn:hover {
+      background-color: #f08804;
+    }
+
+    .cart-count {
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 12px;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+    }
+
+    .hero {
+      background-color: #f3f3f3;
+      padding: 40px 20px;
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+      background: white;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.8s ease forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.2s; }
+    .card:nth-child(2) { animation-delay: 0.4s; }
+    .card:nth-child(3) { animation-delay: 0.6s; }
+    .card:nth-child(4) { animation-delay: 0.8s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card h3 {
+      margin: 10px 0 5px;
+      font-size: 18px;
+    }
+
+    .card p {
+      margin: 5px 0;
+      font-size: 16px;
+    }
+
+    .card button {
+      background-color: #ffa41c;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .card button:hover {
+      background-color: #f08804;
+    }
+
+    .footer {
+      background-color: #131921;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .cart-page {
+      display: none;
+      padding: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .cart-item img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .checkout-btn {
+      background-color: #ffa41c;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .checkout-btn:hover {
+      background-color: #f08804;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h1 onclick="showHome()">MyShop</h1>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search products..."/>
+      <button id="searchBtn">Search</button>
+    </div>
+    <div class="navbar-buttons">
+      <button class="nav-btn" onclick="showCart()">Cart <span class="cart-count" id="cartCount">0</span></button>
+    </div>
+  </div>
+
+  <!-- Hero Banner -->
+  <div class="hero" id="homeHero">
+    <h2>Welcome to MyShop</h2>
+    <p>Shop the best products at affordable prices</p>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="products" id="productsSection">
+    <!-- Products will be loaded by JavaScript -->
+  </div>
+
+  <!-- Cart Page -->
+  <div class="cart-page" id="cartPage">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <h3 id="cartTotal"></h3>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>&copy; 2025 MyShop. All rights reserved.</p>
+  </div>
+
+  <script>
+    const products = [
+      { name: 'BALL', price: 19.99, img: 'https://4.imimg.com/data4/SW/AA/MY-33406727/tennis-ball-500x500.jpg' },
+      { name: 'BOOK', price: 29.99, img: 'https://kashmirage.net/wp-content/uploads/2018/04/book.jpg' },
+      { name: 'BASKET', price: 39.99, img: 'https://i.etsystatic.com/10281997/r/il/61c370/1459619073/il_fullxfull.1459619073_7qgx.jpg' },
+      { name: 'BAT', price: 24.99, img: 'https://cdnmedia.dsc-cricket.com/media/catalog/product/cache/5b0ea239e50527b43e3253a7f103e237/d/s/dsc-cricket-blu--english-willow-player-edition-bat-bat-2.webp' }
+    ];
+
+    let cart = [];
+
+    function displayProducts(filter="") {
+      const productsSection = document.getElementById("productsSection");
+      productsSection.innerHTML = "";
+      const filteredProducts = products.filter(p => p.name.toLowerCase().includes(filter.toLowerCase()));
+      filteredProducts.forEach((product, index) => {
+        productsSection.innerHTML += `
+          <div class="card" style="animation-delay: ${(index+1)*0.2}s">
+            <img src="${product.img}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>$${product.price.toFixed(2)}</p>
+            <button onclick="addToCart('${product.name}', ${product.price}, '${product.img}')">Add to Cart</button>
+          </div>
+        `;
+      });
+    }
+
+    function addToCart(name, price, img) {
+      cart.push({ name, price, img });
+      alert(name + " added to cart!");
+      updateCartCount();
+    }
+
+    function showCart() {
+      document.getElementById('homeHero').style.display = 'none';
+      document.getElementById('productsSection').style.display = 'none';
+      document.getElementById('cartPage').style.display = 'block';
+
+      const cartItemsDiv = document.getElementById('cartItems');
+      cartItemsDiv.innerHTML = '';
+
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price;
+        cartItemsDiv.innerHTML += `
+          <div class="cart-item">
+            <img src="${item.img}" alt="${item.name}">
+            <span>${item.name}</span>
+            <span>$${item.price.toFixed(2)}</span>
+          </div>
+        `;
+      });
+
+      document.getElementById('cartTotal').innerText = "Total: $" + total.toFixed(2);
+    }
+
+    function showHome() {
+      document.getElementById('homeHero').style.display = 'block';
+      document.getElementById('productsSection').style.display = 'grid';
+      document.getElementById('cartPage').style.display = 'none';
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+      }
+      alert("Proceeding to checkout. Thank you for your purchase!");
+      cart = [];
+      updateCartCount();
+      showHome();
+    }
+
+    function updateCartCount() {
+      document.getElementById('cartCount').innerText = cart.length;
+    }
+
+    // Search functionality
+    document.getElementById("searchBtn").addEventListener("click", function() {
+      var query = document.getElementById("searchInput").value;
+      displayProducts(query);
+    });
+
+    window.onload = function() {
+      displayProducts();
+      updateCartCount();
+    };
+  </script>
+
+</body>
+</html>
